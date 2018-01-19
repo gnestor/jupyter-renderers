@@ -2,8 +2,12 @@
 // Distributed under the terms of the Modified BSD License.
 
 import {
-  JupyterLab, JupyterLabPlugin
+  JupyterLabPlugin
 } from '@jupyterlab/application';
+
+import {
+  ILatexTypesetter
+} from '@jupyterlab/rendermime';
 
 import {
   IRenderMime
@@ -31,13 +35,10 @@ class KatexTypesetter implements IRenderMime.ILatexTypesetter {
 /**
  * The KaTex extension.
  */
-const katexPlugin: JupyterLabPlugin<void> = {
+const katexPlugin: JupyterLabPlugin<ILatexTypesetter> = {
   id: 'jupyter.extensions.katex',
-  requires: [],
-  activate: (app: JupyterLab) => {
-    const typesetter = new KatexTypesetter();
-    app.rendermime.latexTypesetter = typesetter;
-  },
+  provides: ILatexTypesetter,
+  activate: () => new KatexTypesetter(),
   autoStart: true
 }
 
